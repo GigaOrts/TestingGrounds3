@@ -2,20 +2,29 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float gravityModifier = 1f;
+    [SerializeField] private float jumpForce;
 
     private Rigidbody playerRigidbody;
+    private bool isOnGround;
 
-    void Start()
+    private void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
+        Physics.gravity *= gravityModifier;
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
             playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isOnGround = false;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isOnGround = true;
     }
 }
