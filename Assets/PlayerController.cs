@@ -2,16 +2,20 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private float jumpForce = 10f;
+
     private Rigidbody playerRigidbody;
 
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
-        playerRigidbody.AddForce(Vector3.up * 500);
     }
 
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.Space))
+        {
+            playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 }
