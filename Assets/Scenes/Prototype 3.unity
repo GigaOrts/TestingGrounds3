@@ -589,12 +589,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab11a8e0f4419c34c84a832371838847, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DashKey: 119
   explosionParticle: {fileID: 2056635698}
   dirtParticle: {fileID: 1048302532}
   jumpSound: {fileID: 8300000, guid: 0f7d0b7c3397f4dac91f20e8a77d2d57, type: 3}
   crashSound: {fileID: 8300000, guid: 4bcde6de2166e41e284ec46d8a01fb90, type: 3}
   gravityModifier: 5
   jumpForce: 18
+  dashPressed: 0
   isGameOver: 0
 --- !u!65 &1118039849
 BoxCollider:
@@ -625,6 +627,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
+--- !u!65 &1118039851
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118039847}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 4.646044, z: 0.20841332}
+  m_Center: {x: -5.16031e-17, y: -3.2142963, z: 0.011993751}
 --- !u!4 &1118039852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 0703a1849c2c89b4db4568688faf0c5f, type: 3}

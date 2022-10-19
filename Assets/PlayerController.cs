@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     private const float VolumeScale = 0.5f;
     private const int jumpAmount = 2;
 
+
+    public KeyCode DashKey;
     [SerializeField] private ParticleSystem explosionParticle;
     [SerializeField] private ParticleSystem dirtParticle;
     [SerializeField] private AudioClip jumpSound;
@@ -17,12 +19,14 @@ public class PlayerController : MonoBehaviour
 
     private int jumpCounter = 0;
 
+    public bool dashPressed;
     public bool isGameOver;
     private bool isOnGround;
 
     private Rigidbody playerRigidbody;
     private AudioSource playerAudio;
     private Animator playerAnim;
+    public bool obstaclePassed;
 
     private void Start()
     {
@@ -34,6 +38,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(DashKey))
+            dashPressed = !dashPressed;
+
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !isGameOver)
         {
             Jump();
@@ -42,7 +49,7 @@ public class PlayerController : MonoBehaviour
             dirtParticle.Stop();
             isOnGround = false;
         }
-        else if(Input.GetKeyDown(KeyCode.Space) && jumpCounter < jumpAmount && !isGameOver)
+        else if (Input.GetKeyDown(KeyCode.Space) && jumpCounter < jumpAmount && !isGameOver)
         {
             Jump();
 
@@ -61,6 +68,22 @@ public class PlayerController : MonoBehaviour
         else if (collision.gameObject.CompareTag(ObstacleTag))
         {
             Die();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            obstaclePassed = false;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            obstaclePassed = true;
         }
     }
 
