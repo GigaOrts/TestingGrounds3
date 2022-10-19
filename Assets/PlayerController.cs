@@ -5,16 +5,21 @@ public class PlayerController : MonoBehaviour
     private const string GroundTag = "Ground";
     private const string ObstacleTag = "Obstacle";
     private const float VolumeScale = 0.5f;
+    private const int jumpAmount = 2;
 
     [SerializeField] private ParticleSystem explosionParticle;
     [SerializeField] private ParticleSystem dirtParticle;
     [SerializeField] private AudioClip jumpSound;
     [SerializeField] private AudioClip crashSound;
+
     [SerializeField] private float gravityModifier = 1f;
     [SerializeField] private float jumpForce;
 
+    private int jumpCounter = 0;
+
     public bool isGameOver;
     private bool isOnGround;
+
     private Rigidbody playerRigidbody;
     private AudioSource playerAudio;
     private Animator playerAnim;
@@ -31,11 +36,17 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround && !isGameOver)
         {
-            playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isOnGround = false;
-            playerAnim.SetTrigger("Jump_trig");
+            Jump();
+
+            jumpCounter++;
             dirtParticle.Stop();
-            playerAudio.PlayOneShot(jumpSound, VolumeScale);
+            isOnGround = false;
+        }
+        else if(Input.GetKeyDown(KeyCode.Space) && jumpCounter < jumpAmount)
+        {
+            Jump();
+
+            jumpCounter++;
         }
     }
 
@@ -43,18 +54,31 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(GroundTag))
         {
+            jumpCounter = 0;
             isOnGround = true;
             dirtParticle.Play();
         }
         else if (collision.gameObject.CompareTag(ObstacleTag))
         {
-            isGameOver = true;
-            Debug.Log("GAME OVER");
-            playerAnim.SetBool("Death_b", true);
-            playerAnim.SetInteger("DeathType_int", 1);
-            explosionParticle.Play();
-            dirtParticle.Stop();
-            playerAudio.PlayOneShot(crashSound, VolumeScale);
+            Die();
         }
+    }
+
+    private void Jump()
+    {
+        playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        playerAnim.SetTrigger("Jump_trig");
+        playerAudio.PlayOneShot(jumpSound, VolumeScale);
+    }
+
+    private void Die()
+    {
+        isGameOver = true;
+        Debug.Log("GAME OVER");
+        playerAnim.SetBool("Death_b", true);
+        playerAnim.SetInteger("DeathType_int", 1);
+        explosionParticle.Play();
+        dirtParticle.Stop();
+        playerAudio.PlayOneShot(crashSound, VolumeScale);
     }
 }

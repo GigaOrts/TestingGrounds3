@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject obstaclePrefab;
+    [SerializeField] private GameObject[] obstaclePrefabs;
     [SerializeField] private Transform spawnPosition;
 
     private PlayerController playerControllerScript;
@@ -17,7 +17,9 @@ public class Spawner : MonoBehaviour
 
     private void SpawnObstacle()
     {
+        int randomIndex = Random.Range(0, obstaclePrefabs.Length);
+
         if (playerControllerScript.isGameOver == false)
-            Instantiate(obstaclePrefab, spawnPosition.position, obstaclePrefab.transform.rotation);
+            Instantiate(obstaclePrefabs[randomIndex], spawnPosition.position, obstaclePrefabs[randomIndex].transform.rotation);
     }
 }
