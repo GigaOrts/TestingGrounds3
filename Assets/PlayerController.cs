@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
             dirtParticle.Stop();
             isOnGround = false;
         }
-        else if(Input.GetKeyDown(KeyCode.Space) && jumpCounter < jumpAmount)
+        else if(Input.GetKeyDown(KeyCode.Space) && jumpCounter < jumpAmount && !isGameOver)
         {
             Jump();
 
