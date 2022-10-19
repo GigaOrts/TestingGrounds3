@@ -7,10 +7,11 @@ public class GameController : MonoBehaviour
     private PlayerController playerControllerScript;
 
     private int scoreUpdate = 1;
-    private int score = 0;
+    private int score;
 
     private void Start()
     {
+        score = 0;
         playerControllerScript = FindObjectOfType<PlayerController>();
     }
 
